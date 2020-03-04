@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
  * Class for objects responsible of RoomBooking xml files parsing
  * SAX version
  */
-public class RoomBookingSaxParser {
+public class RoomBookingSaxParser implements RoomBookingParser {
     String valeur;
     String tmpLocalName;
 
@@ -51,8 +51,7 @@ public class RoomBookingSaxParser {
 
         public void characters(char[] ch, int start, int length)
                 throws SAXException {
-            SimpleDateFormat dateDebut = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            SimpleDateFormat dateFin = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             valeur = new String(ch, start, length);
             if (valeur != null) {
                 if (valeur.equals("label")) {
@@ -64,14 +63,14 @@ public class RoomBookingSaxParser {
                 if (valeur.equals("startDate")) {
 
                     try {
-                        roomBooking.setStartDate(dateDebut.parse(valeur));
+                        roomBooking.setStartDate(dateFormat.parse(valeur));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
                 if (valeur.equals("endDate")) {
                     try {
-                        roomBooking.setEndDate(dateDebut.parse(valeur));
+                        roomBooking.setEndDate(dateFormat.parse(valeur));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
